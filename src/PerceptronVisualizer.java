@@ -41,7 +41,7 @@ public class PerceptronVisualizer extends PApplet {
 			
 			int guess = nn.guess(input);
 
-			int color = (guess == 1 && nn.getCorrectGuess(p.getLabelString())==1) ? color(0, 255, 0) : color(255, 0, 0);
+			int color = (nn.isGuessCorrect(guess, p.getLabelString())) ? color(0, 255, 0) : color(255, 0, 0);
 
 			fill(color);
 			ellipse(200, 20 + (i-1)*40, 20, 20);
@@ -83,7 +83,7 @@ public class PerceptronVisualizer extends PApplet {
 		int guess = nn.guess(new float[] { current.getData(0), current.getData(1) });
 
 		textSize(40);
-		int color = (guess == 1 && nn.getCorrectGuess(current.getLabelString())==1) ? color(0, 180, 0) : color(255, 0, 0);
+		int color = (nn.isGuessCorrect(guess, current.getLabelString())) ? color(0, 180, 0) : color(255, 0, 0);
 		fill(color);
 		String dispString = (guess == 1)?nn.getTargetLabel():"not " + nn.getTargetLabel();
 		text(guess + " : " + dispString, centerX - 60, centerY + 200);
