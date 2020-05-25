@@ -9,9 +9,11 @@ public class PerceptronVisualizer extends PApplet {
 	DataSet.DataPoint current;
 	Perceptron nn;
 
-	public void setup() {
+	public void settings() {
 		size(1200, 900);
+	}
 
+	public void setup() {
 		String[] headers = { "sepal length", "sepal width", "petal length", "petal width", "class" };
 		data = DataReader.createDataSetFromCSV("iris.data", 0, headers);
 
