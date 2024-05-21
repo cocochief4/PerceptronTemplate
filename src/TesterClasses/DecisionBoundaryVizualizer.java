@@ -28,7 +28,7 @@ public class DecisionBoundaryVizualizer extends PApplet {
         String[] headers = {"sepal length", "sepal width", "petal length", "petal width", "class"};
         d = DataReader.createDataSetFromCSV("data/iris.data", 0, headers);
 
-        nn = new Perceptron(2, "setosa");
+        nn = new Perceptron(2, "versicolor");
 
         x = DataSet.getIndexForFeatureName(features[0]);
         y = DataSet.getIndexForFeatureName(features[1]);
@@ -53,7 +53,7 @@ public class DecisionBoundaryVizualizer extends PApplet {
                 numRight++;
             }
 
-            String displayString = (guess == 1) ? "setosa" : "NOT setosa";
+            String displayString = (guess == 1) ? "virginica" : "NOT viriginica";
             System.out.println("Guessed: " + guess + " real: " + correctLabel);
         }
 

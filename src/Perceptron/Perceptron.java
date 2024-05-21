@@ -8,7 +8,7 @@ public class Perceptron {
     private float THRESHOLD = 0;
 
     private String classifyForLabel; // this is a classifier for eg "virginica"
-    private float learningRate = 0.005f;
+    private float learningRate = 0.001f;
 
     public Perceptron(int numInputs, String whatToClassify) {
         this.classifyForLabel = whatToClassify;
@@ -22,8 +22,11 @@ public class Perceptron {
      * @return the initialized weights array
      */
     private float[] initWeights(int numInputs) {
-        // TODO:  initialize the weights
-        return null;
+        float[] weights = new float[numInputs];
+        for (int i = 0; i < numInputs; i++) {
+            weights[i] = (float) Math.random() * 2 - 1;
+        }
+        return weights;
     }
 
     /***
@@ -35,7 +38,14 @@ public class Perceptron {
         // TODO:  Implement this.
         // Do a linear combination of the inputs multiplied by the weights.
         // Run the sum through the activiationFunction and return the result
-        return -1;
+        float sum = 0;
+        
+        for (int i = 0; i < input.length; i++) {
+            sum += input[i] * weights[i];
+        }
+        
+        return activationFunction(sum);
+        
     }
 
     private int activationFunction(float sum) {
@@ -48,22 +58,28 @@ public class Perceptron {
 
     /***
      * Train the perceptron using the input feature vector and its correct label.
-     * Return true if there was a non-zero error and training occured (weights got adjusted)
      *
      * @param input
      * @param correctLabel
-     * @return
+     * @return true if there was a non-zero error and training occured (weights got adjusted)
      */
     public boolean train(float[] input, String correctLabel) {
-        // TODO:  Implement this.
-
         // run the perceptron on the input
+        int g = guess(input);
+        int correctGuess = getCorrectGuess(correctLabel);
+        int e = g - correctGuess; // Sign tells us if over/under guessed
+        
         // compare the guess with the correct label (can use already-made helper method for this).
 
         // If guess was incorrect
         //    update weights and THRESHOLD using learning rule
+        for (int i = 0; i < input.length; i++) {
+            weights[i] -= learningRate * e * input[i];
+        }
 
-        return false;
+        THRESHOLD += learningRate * e;
+
+        return e != 0;
     }
 
     public float[] getWeights() {

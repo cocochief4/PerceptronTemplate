@@ -1,13 +1,15 @@
 package TesterClasses;
 
+import java.util.Arrays;
+
 import DataDisplay.DataReader;
 import DataDisplay.DataSet;
 import Perceptron.Perceptron;
 
 public class TestPerceptron {
-    public static final String WHAT_TO_CLASSIFY = "virginica";
+    public static final String WHAT_TO_CLASSIFY = "versicolor";
     public static final String TRAINING_DATA_FILE = "data/iris.data";
-    public static final String[] features = {"sepal length", "sepal width"};
+    public static final String[] features = {"sepal length", "sepal width", "petal length", "petal width"};
 
     public static void main(String[] args) {
         DataSet dataset;
