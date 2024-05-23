@@ -22,7 +22,7 @@ public class Main extends PApplet {
 
     public void setup() {
         String[] headers = {"sepal length", "sepal width", "petal length", "petal width", "class"};
-        d = DataReader.createDataSetFromCSV("iris1.csv", 0, headers);
+        d = DataReader.createDataSetFromCSV("C:\\Users\\cococ\\Documents\\GitHub\\apcs\\PerceptronTemplate\\data\\iris.csv", 0, headers);
 
         nn = new Perceptron(2, "setosa");
 
