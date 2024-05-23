@@ -8,6 +8,7 @@ public class DataReader {
 
 	private static String normalizeLineBreaks(String s) {
 		return s.replace("\r\n", "\n").replace('\r', '\n');
+		// return s;
 	}
 
 	public static String readFileAsString(String filepath) {

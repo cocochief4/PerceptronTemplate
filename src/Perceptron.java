@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.List;
 
 public class Perceptron {
     private int numInputs;
@@ -33,7 +34,7 @@ public class Perceptron {
      * @return
      */
     public boolean train(float[] input, String correctLabel) {
-        int guess = guess(input);
+        int guess = (int) (guess(input) + 0.5);
 
         if (!isGuessCorrect(guess, correctLabel)) {
             float error = guess - getCorrectGuess(correctLabel);
@@ -48,15 +49,46 @@ public class Perceptron {
 
         return false;
     }
+    
+    public boolean train(List<DataSet.DataPoint> batch, String[] features) {
+        float[] weightUpdates = new float[ features.length ];
+        float thresholdUpdate = 0;
 
-    public int guess(float[] input) {
+        for (DataSet.DataPoint point : batch) {
+            float[] input = point.getData(features);
+            String correctLabel = point.getLabelString();
+
+            float prediction = guess(input);
+            int correctAnswer = getCorrectGuess(correctLabel);
+            float error = (prediction - correctAnswer);
+
+            for (int i = 0; i < weights.length; i++) {
+                weightUpdates[i] += input[i] * error * learningRate;		// ADD IN ADJUSTMENTS FOR UDPATE
+            }
+
+            thresholdUpdate = thresholdUpdate + error * learningRate;
+        }
+
+        for (int i = 0; i < weights.length; i++) {					// APPLY THEM!
+            weights[i] -= weightUpdates[i];
+        }
+     
+        THRESHOLD -= thresholdUpdate;					// APPLY THEM!
+
+        return true;
+
+    }
+
+    public float guess(float[] input) {
         double sum = 0;
 
         for (int i = 0; i < input.length; i++) {
             sum += input[i] * weights[i];
         }
 
-        return activationFunction(sum);
+        sum += THRESHOLD;
+
+        return sigmoidFunction(sum);
     }
 
     private int activationFunction(double sum) {
@@ -65,6 +97,10 @@ public class Perceptron {
         } else {
             return 0;
         }
+    }
+
+    private float sigmoidFunction(double sum) {
+        return (float)(1/(1+Math.exp(-sum)));
     }
 
     public float[] getWeights() {

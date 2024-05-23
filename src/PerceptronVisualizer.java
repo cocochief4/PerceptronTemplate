@@ -39,7 +39,7 @@ public class PerceptronVisualizer extends PApplet {
 			DataSet.DataPoint p = data.getData().get(i);
 			float[] input = {p.getData(0), p.getData(1)};
 			
-			int guess = nn.guess(input);
+			int guess = (int) (nn.guess(input) + 0.5);
 
 			int color = (nn.isGuessCorrect(guess, p.getLabelString())) ? color(0, 255, 0) : color(255, 0, 0);
 
@@ -80,7 +80,7 @@ public class PerceptronVisualizer extends PApplet {
 		fill(0);
 		text(displayString, centerX - 130, centerY);
 
-		int guess = nn.guess(new float[] { current.getData(0), current.getData(1) });
+		int guess = (int) (nn.guess(new float[] { current.getData(0), current.getData(1) }) + 0.5);
 
 		textSize(40);
 		int color = (nn.isGuessCorrect(guess, current.getLabelString())) ? color(0, 180, 0) : color(255, 0, 0);

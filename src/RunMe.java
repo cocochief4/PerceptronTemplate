@@ -21,7 +21,7 @@ public class RunMe {
             String correctLabel = p.getLabelString();
 
             float[] input = p.getData(features);
-            int guess = nn.guess(input);
+            int guess = (int) (nn.guess(input) + 0.5);
 
             if (nn.isGuessCorrect(guess, correctLabel)) {
                 numRight++;
@@ -40,7 +40,7 @@ public class RunMe {
                 String correctLabel = p.getLabelString();
                 float[] input = p.getData(features);
 
-                nn.train(input, correctLabel);
+                nn.train(d.getData(), features); // Batch Size: entire dataset
             }
         }
     }

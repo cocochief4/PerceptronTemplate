@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends PApplet {
     private static final int NO_CATEGORY_COLOR = 0xFFFFFF00;
@@ -21,7 +22,7 @@ public class Main extends PApplet {
 
     public void setup() {
         String[] headers = {"sepal length", "sepal width", "petal length", "petal width", "class"};
-        d = DataReader.createDataSetFromCSV("iris.data", 0, headers);
+        d = DataReader.createDataSetFromCSV("iris1.csv", 0, headers);
 
         nn = new Perceptron(2, "setosa");
 
@@ -42,7 +43,7 @@ public class Main extends PApplet {
             String correctLabel = p.getLabelString();
             float[] input = p.getData(features);
 
-            int guess = nn.guess(input);
+            int guess = (int) (nn.guess(input) + 0.5);
 
             if (nn.isGuessCorrect(guess, correctLabel)) {
                 numRight++;
@@ -102,7 +103,7 @@ public class Main extends PApplet {
             weight = 6;
 
             float[] inputs = point.getData(features);
-            int guess = nn.guess(inputs);
+            int guess = (int) (nn.guess(inputs) + 0.5);
 
             int color = (nn.isGuessCorrect(guess, label)) ? CORRECT_CLASSIFICAITON_COLOR : INCORRECT_CLASSIFICATION_COLOR;
             int stroke = (label.equals(nn.getTargetLabel())) ? YES_CATEGORY_COLOR : NO_CATEGORY_COLOR;
@@ -116,7 +117,7 @@ public class Main extends PApplet {
                 float dx = display.screenXToData(x);
                 float dy = display.sccreenYToData(y);
 
-                int guess = nn.guess(new float[]{dx, dy});
+                int guess = (int) (nn.guess(new float[]{dx, dy}) + 0.5);
                 int color = (guess == 1) ? YES_CATEGORY_COLOR : NO_CATEGORY_COLOR;
 
                 display.plotDataCoords(this, dx, dy, STEP / 2, color, color, 1);
@@ -125,18 +126,20 @@ public class Main extends PApplet {
     }
 
     public void mouseReleased() {
-        boolean noChange = true;
-        do {
-            DataSet.DataPoint point = d.getData().get(currentIndex);
-            String label = point.getLabelString();
+        // boolean noChange = true;
+        // do {
+        //     DataSet.DataPoint point = d.getData().get(currentIndex);
+        //     String label = point.getLabelString();
 
-            float[] inputs = {point.getData(x), point.getData(y)};
-            noChange = !nn.train(inputs, point.getLabelString());
+        //     float[] inputs = {point.getData(x), point.getData(y)};
+        //     noChange = !nn.train(inputs, point.getLabelString());
 
-            currentIndex++;
-            if (currentIndex >= d.getData().size())
-                currentIndex = 0;
-        } while (noChange);
+        //     currentIndex++;
+        //     if (currentIndex >= d.getData().size())
+        //         currentIndex = 0;
+        // } while (noChange);
+        List<DataSet.DataPoint> batch = d.getData();    // return the List of all the data points
+        nn.train(batch, features);                     // train on the whole batch at once.
     }
 
    public static void main(String[] args) {
